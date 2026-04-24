@@ -2,6 +2,9 @@ export const ARCHETYPES = [
   {
     num: '01',
     name: 'The Oracle',
+    img: '/assets/archetypes/oracle.jpg',
+    color: '#141414',
+    accent: '#c49a6c',
     tag: 'Quiet Power · Psychological Depth',
     essence: 'Power through presence and intuition.',
     distinction: 'Submission feels inevitable, not demanded.',
@@ -9,6 +12,9 @@ export const ARCHETYPES = [
   {
     num: '02',
     name: 'The Predator',
+    img: '/assets/archetypes/predator.jpg',
+    color: '#141414',
+    accent: '#c49a6c',
     tag: 'Fear · Pain · Breaking Resistance',
     essence: 'Power through intimidation and applied pressure.',
     distinction: 'Submission is taken, not offered.',
@@ -16,6 +22,9 @@ export const ARCHETYPES = [
   {
     num: '03',
     name: 'The Manipulator',
+    img: '/assets/archetypes/manipulator.jpg',
+    color: '#141414',
+    accent: '#c49a6c',
     tag: 'Mind Control · Emotional Hooks',
     essence: 'Power through psychological games and dependency.',
     distinction: 'Controls the mind more than the body.',
@@ -23,6 +32,9 @@ export const ARCHETYPES = [
   {
     num: '04',
     name: 'The Shark',
+    img: '/assets/archetypes/shark.jpg',
+    color: '#141414',
+    accent: '#c49a6c',
     tag: 'Financial Control · Detachment',
     essence: 'Power through money and emotional distance.',
     distinction: 'Control exists without care.',
@@ -30,6 +42,9 @@ export const ARCHETYPES = [
   {
     num: '05',
     name: 'The Siren',
+    img: '/assets/archetypes/siren.jpg',
+    color: '#141414',
+    accent: '#c49a6c',
     tag: 'Desire · Seduction · Erotic Pull',
     essence: 'Power through attraction and sensual magnetism.',
     distinction: 'Subs walk into it willingly.',
@@ -37,6 +52,9 @@ export const ARCHETYPES = [
   {
     num: '06',
     name: 'The Queen',
+    img: '/assets/archetypes/queen.jpg',
+    color: '#141414',
+    accent: '#c49a6c',
     tag: 'Standards · Protocol · Earned Access',
     essence: 'Power through hierarchy and self-worth.',
     distinction: 'Withholds access, not affection.',
@@ -44,6 +62,9 @@ export const ARCHETYPES = [
   {
     num: '07',
     name: 'The Divine Sole',
+    img: '/assets/archetypes/sole.jpg',
+    color: '#141414',
+    accent: '#c49a6c',
     tag: 'Worship · Ritual · Focused Obsession',
     essence: 'Power through ritualised worship of the body.',
     distinction: 'Submission is ceremonial.',

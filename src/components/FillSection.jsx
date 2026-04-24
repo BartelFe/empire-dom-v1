@@ -80,7 +80,7 @@ export default function FillSection() {
     <section
       ref={sectionRef}
       id="fill-section"
-      className="relative h-screen w-full overflow-hidden bg-ed-black"
+      className="relative h-screen w-full overflow-hidden bg-black"
     >
       {/* Amber vault glow — hidden at start, grows into view */}
       <div

@@ -30,15 +30,33 @@ const WALL_DEPTH = ARCHETYPES.length * SPACING + 10;
 /* -----------------------------------------------------------
    3D archetype card
    ----------------------------------------------------------- */
-function Card({ position }) {
-  const group = useRef();
-  const plane = useRef();
-  const edges = useRef();
+const Card = memo(function Card({ position, archetypeImg }) {
+  const group  = useRef();
+  const plane  = useRef();
+  const edges  = useRef();
+  const matRef = useRef();
 
   const edgesGeom = useMemo(
     () => new THREE.EdgesGeometry(new THREE.PlaneGeometry(5, 7)),
     [],
   );
+
+  useEffect(() => {
+    if (!archetypeImg) return;
+    const loader = new THREE.TextureLoader();
+    loader.load(
+      archetypeImg,
+      (texture) => {
+        texture.colorSpace = THREE.SRGBColorSpace;
+        if (!matRef.current) return;
+        matRef.current.map = texture;
+        matRef.current.color.set('#ffffff');
+        matRef.current.needsUpdate = true;
+      },
+      undefined,
+      (err) => console.error('Texture load error:', archetypeImg, err),
+    );
+  }, [archetypeImg]);
 
   useFrame(({ camera }) => {
     if (!group.current) return;
@@ -59,14 +77,14 @@ function Card({ position }) {
     <group ref={group} position={position}>
       <mesh ref={plane}>
         <planeGeometry args={[5, 7]} />
-        <meshBasicMaterial color="#050505" transparent />
+        <meshBasicMaterial ref={matRef} color="#050505" transparent />
       </mesh>
       <lineSegments ref={edges} geometry={edgesGeom}>
         <lineBasicMaterial color={GOLD} transparent />
       </lineSegments>
     </group>
   );
-}
+});
 
 /* -----------------------------------------------------------
    R3F scene
@@ -94,7 +112,7 @@ function FlightScene({ progressRef }) {
       <fog attach="fog" args={['#000000', 5, 26]} />
       <color attach="background" args={['#000000']} />
       {positions.map((pos, i) => (
-        <Card key={i} position={pos} />
+        <Card key={i} position={pos} archetypeImg={ARCHETYPES[i]?.img} />
       ))}
     </>
   );
