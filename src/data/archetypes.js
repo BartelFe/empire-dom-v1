@@ -1,0 +1,51 @@
+export const ARCHETYPES = [
+  {
+    num: '01',
+    name: 'The Oracle',
+    tag: 'Quiet Power · Psychological Depth',
+    essence: 'Power through presence and intuition.',
+    distinction: 'Submission feels inevitable, not demanded.',
+  },
+  {
+    num: '02',
+    name: 'The Predator',
+    tag: 'Fear · Pain · Breaking Resistance',
+    essence: 'Power through intimidation and applied pressure.',
+    distinction: 'Submission is taken, not offered.',
+  },
+  {
+    num: '03',
+    name: 'The Manipulator',
+    tag: 'Mind Control · Emotional Hooks',
+    essence: 'Power through psychological games and dependency.',
+    distinction: 'Controls the mind more than the body.',
+  },
+  {
+    num: '04',
+    name: 'The Shark',
+    tag: 'Financial Control · Detachment',
+    essence: 'Power through money and emotional distance.',
+    distinction: 'Control exists without care.',
+  },
+  {
+    num: '05',
+    name: 'The Siren',
+    tag: 'Desire · Seduction · Erotic Pull',
+    essence: 'Power through attraction and sensual magnetism.',
+    distinction: 'Subs walk into it willingly.',
+  },
+  {
+    num: '06',
+    name: 'The Queen',
+    tag: 'Standards · Protocol · Earned Access',
+    essence: 'Power through hierarchy and self-worth.',
+    distinction: 'Withholds access, not affection.',
+  },
+  {
+    num: '07',
+    name: 'The Divine Sole',
+    tag: 'Worship · Ritual · Focused Obsession',
+    essence: 'Power through ritualised worship of the body.',
+    distinction: 'Submission is ceremonial.',
+  },
+];
