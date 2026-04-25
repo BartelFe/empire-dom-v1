@@ -352,20 +352,14 @@ const GoddessWall = memo(function GoddessWall({ active }) {
         10 of ∞
       </div>
 
-      {/* Asymmetric grid — 6 cols × 4 rows, cards span variably */}
-      <div
-        className="grid h-full w-full gap-[2px] p-[2px]"
-        style={{
-          gridTemplateColumns: 'repeat(6, 1fr)',
-          gridTemplateRows: 'repeat(4, 1fr)',
-        }}
-      >
+      {/* Grid — mobile: 6 cols × 4 rows asymmetric · desktop: 5 cols × 2 rows uniform */}
+      <div className="grid h-full w-full gap-[2px] p-[2px] grid-cols-6 grid-rows-4 lg:grid-cols-5 lg:grid-rows-2">
         {GODDESSES.map((g, i) => (
           <button
             key={g.id}
             onMouseEnter={handleEnter}
             onMouseLeave={handleLeave}
-            className={`portrait group relative ${g.col}`}
+            className={`portrait group relative ${g.col} lg:col-span-1 lg:row-span-1`}
             style={{
               border: '1px solid rgba(196,154,108,0.45)',
               boxShadow: 'inset 0 0 28px 8px rgba(0,0,0,0.70)',
@@ -412,8 +406,8 @@ const GoddessWall = memo(function GoddessWall({ active }) {
         ))}
       </div>
 
-      {/* Bottom hint */}
-      <div className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 text-center">
+      {/* Bottom hint — hidden on desktop (plaques carry the info) */}
+      <div className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 text-center lg:hidden">
         <div className="text-[9px] tracking-[0.5em] uppercase text-ed-gray/45">
           Hover to expose · Scroll to ascend
         </div>
