@@ -145,9 +145,9 @@ export default function Footer() {
       <h1
         className="mono-gradient relative z-10 whitespace-nowrap text-center font-[900] tracking-tighter select-none"
         style={{
-          fontSize: '26vw',
+          fontSize: 'clamp(3rem, 18vw, 18rem)',
           lineHeight: 0.82,
-          marginBottom: '-6vw',
+          marginBottom: '-2vw',
         }}
       >
         EMPIRE DOM

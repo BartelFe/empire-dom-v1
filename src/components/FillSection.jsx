@@ -98,7 +98,7 @@ export default function FillSection() {
         <svg
           ref={ringsRef}
           viewBox="-400 -400 800 800"
-          className="pointer-events-none absolute h-[140vh] w-[140vh] opacity-40"
+          className="pointer-events-none absolute h-[140vh] w-[140vh] opacity-65"
           style={{ maxWidth: '95vw', maxHeight: '95vw' }}
         >
           <DotRing radius={380} count={140} />
@@ -129,11 +129,9 @@ export default function FillSection() {
           always.
         </h2>
 
-        {/* Numeral badge */}
+        {/* Money-wave mark */}
         <div className="absolute left-1/2 top-[calc(50%+14vh)] -translate-x-1/2 -translate-y-1/2">
-          <div className="flex h-14 w-14 items-center justify-center rounded-full border border-ed-gold/70">
-            <span className="text-sm font-[300] italic text-ed-gold">I</span>
-          </div>
+          <img src="/assets/money-wave.svg" alt="Empire Dom" className="w-52 opacity-70" />
         </div>
 
         {/* Scroll cue */}
@@ -165,7 +163,7 @@ function DotRing({ radius, count }) {
           cy={d.y}
           r={1}
           fill="var(--ed-gold)"
-          opacity={i % 3 === 0 ? 0.75 : 0.35}
+          opacity={i % 3 === 0 ? 0.9 : 0.55}
         />
       ))}
     </g>

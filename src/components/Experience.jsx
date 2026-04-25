@@ -91,12 +91,14 @@ const Card = memo(function Card({ position, archetypeImg }) {
    ----------------------------------------------------------- */
 function FlightScene({ progressRef }) {
   const positions = useMemo(
-    () =>
-      ARCHETYPES.map((_, i) => [
-        i % 2 === 0 ? -2.6 : 2.6,
+    () => {
+      const xOffset = window.innerWidth < 768 ? 1.6 : 2.6;
+      return ARCHETYPES.map((_, i) => [
+        i % 2 === 0 ? -xOffset : xOffset,
         ((i % 3) - 1) * 0.8,
         -(i * SPACING) - 8,
-      ]),
+      ]);
+    },
     [],
   );
 

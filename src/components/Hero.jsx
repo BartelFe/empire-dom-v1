@@ -63,10 +63,10 @@ export default function Hero({ onEnter }) {
       <div className="absolute bottom-[10vh] left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-8">
         <button
           onClick={onEnter}
-          className="group relative overflow-hidden border border-ed-gold px-14 py-5"
+          className="group relative overflow-hidden border border-ed-gold px-8 py-5 sm:px-14"
         >
           <span className="absolute inset-0 -translate-x-full bg-ed-gold transition-transform duration-500 ease-out group-hover:translate-x-0" />
-          <span className="relative z-10 text-[11px] tracking-[0.4em] uppercase text-ed-gold transition-colors duration-500 delay-100 group-hover:text-ed-black">
+          <span className="relative z-10 whitespace-nowrap text-[11px] tracking-[0.4em] uppercase text-ed-gold transition-colors duration-500 delay-100 group-hover:text-ed-black">
             Enter the Empire
           </span>
         </button>
