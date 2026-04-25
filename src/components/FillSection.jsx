@@ -130,7 +130,7 @@ export default function FillSection() {
         </h2>
 
         {/* Money-wave mark */}
-        <div className="absolute left-1/2 top-[calc(50%+14vh)] -translate-x-1/2 -translate-y-1/2">
+        <div className="absolute left-1/2 top-[calc(50%+14vh)] lg:top-[calc(50%+24vh)] -translate-x-1/2 -translate-y-1/2">
           <img src="/assets/money-wave.svg" alt="Empire Dom" className="w-52 opacity-70" />
         </div>
 

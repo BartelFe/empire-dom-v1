@@ -22,10 +22,40 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ARCHETYPES } from '../data/archetypes.js';
 import { GODDESSES } from '../data/goddesses.js';
 
-const SPACING   = 18;
-const FLIGHT    = ARCHETYPES.length * SPACING;
-const GOLD      = '#c49a6c';
+const SPACING    = 18;
+const FLIGHT     = ARCHETYPES.length * SPACING;
+const GOLD       = '#c49a6c';
 const WALL_DEPTH = ARCHETYPES.length * SPACING + 10;
+
+/* -----------------------------------------------------------
+   Paparazzi flash burst — fires once when progress > 0.85.
+   Creates DOM elements directly to avoid React re-render cost.
+   ----------------------------------------------------------- */
+function triggerPaparazziFlash(container) {
+  if (!container) return;
+  const bursts = [
+    { delay: 0.00, x: 20, y: 38, w: 180, h: 110 },
+    { delay: 0.09, x: 78, y: 22, w: 240, h: 150 },
+    { delay: 0.17, x: 48, y: 65, w: 150, h: 95  },
+    { delay: 0.28, x: 12, y: 72, w: 200, h: 125 },
+    { delay: 0.38, x: 85, y: 55, w: 135, h: 85  },
+    { delay: 0.50, x: 62, y: 28, w: 210, h: 130 },
+    { delay: 0.60, x: 35, y: 50, w: 160, h: 100 },
+  ];
+  bursts.forEach(({ delay, x, y, w, h }) => {
+    const el = document.createElement('div');
+    el.style.cssText = `
+      position:absolute;left:${x}%;top:${y}%;
+      width:${w}px;height:${h}px;
+      background:radial-gradient(ellipse,rgba(255,255,255,0.90) 0%,rgba(255,255,255,0) 70%);
+      pointer-events:none;transform:translate(-50%,-50%);opacity:0;
+    `;
+    container.appendChild(el);
+    gsap.timeline({ onComplete: () => el.remove() })
+      .to(el, { opacity: 1, duration: 0.035, delay, ease: 'none' })
+      .to(el, { opacity: 0, duration: 0.22, ease: 'power2.out' });
+  });
+}
 
 /* -----------------------------------------------------------
    3D archetype card
@@ -132,7 +162,9 @@ export default function Experience() {
     name: useRef(null),
     tag: useRef(null),
   };
-  const progressRef  = useRef(0);
+  const progressRef      = useRef(0);
+  const flashContainerRef = useRef(null);
+  const hasFlashedRef     = useRef(false);
   const [idx, setIdx] = useState(0);
   const [inWall, setInWall] = useState(false);
 
@@ -178,6 +210,14 @@ export default function Experience() {
         // Fade HUD when in wall phase
         if (hudRef.current) {
           hudRef.current.style.opacity = String(1 - wallP * 1.2);
+        }
+
+        // Paparazzi flash burst — fires once when entering wall phase
+        if (self.progress >= 0.85 && !hasFlashedRef.current) {
+          hasFlashedRef.current = true;
+          triggerPaparazziFlash(flashContainerRef.current);
+        } else if (self.progress < 0.80) {
+          hasFlashedRef.current = false;
         }
       },
     });
@@ -252,6 +292,12 @@ export default function Experience() {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,#000_100%)]" />
       </div>
 
+      {/* Paparazzi flash container — sits above wall, emptied after burst */}
+      <div
+        ref={flashContainerRef}
+        className="pointer-events-none absolute inset-0 z-[30]"
+      />
+
       {/* ============================================================
           GODDESS WALL · emerges at progress 0.85 → 1.0
           Positioned absolute within pinned section so it naturally
@@ -287,8 +333,8 @@ const GoddessWall = memo(function GoddessWall({ active }) {
     card.appendChild(flash);
     gsap
       .timeline({ onComplete: () => flash.remove() })
-      .to(flash, { opacity: 1, duration: 0.04, ease: 'none' })
-      .to(flash, { opacity: 0, duration: 0.18, ease: 'power2.in' });
+      .to(flash, { opacity: 0.7, duration: 0.04, ease: 'none' })
+      .to(flash, { opacity: 0, duration: 0.22, ease: 'power2.in' });
     card.classList.add('is-exposed');
   };
   const handleLeave = (e) => e.currentTarget.classList.remove('is-exposed');
@@ -296,7 +342,7 @@ const GoddessWall = memo(function GoddessWall({ active }) {
   return (
     <div className="relative h-screen w-full bg-black">
       {/* Wall edge frame */}
-      <div className="pointer-events-none absolute inset-0 border border-ed-gold/12" />
+      <div className="pointer-events-none absolute inset-0 border border-ed-gold/20" />
 
       {/* Top HUD */}
       <div className="pointer-events-none absolute top-6 left-6 z-30 text-[10px] tracking-[0.5em] uppercase text-ed-gold">
@@ -320,17 +366,47 @@ const GoddessWall = memo(function GoddessWall({ active }) {
             onMouseEnter={handleEnter}
             onMouseLeave={handleLeave}
             className={`portrait group relative ${g.col}`}
+            style={{
+              border: '1px solid rgba(196,154,108,0.45)',
+              boxShadow: 'inset 0 0 28px 8px rgba(0,0,0,0.70)',
+            }}
           >
             <img src={g.img} alt={g.name} loading="lazy" />
 
-            {/* Hover meta */}
-            <div className="pointer-events-none absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/80 via-transparent to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-              <div className="text-[8px] tracking-[0.4em] uppercase text-ed-gold">
-                No. {String(i + 1).padStart(2, '0')}
-              </div>
-              <div className="mt-1 font-[900] text-[11px] tracking-[0.15em] uppercase text-ed-gray">
-                — {g.name}
-              </div>
+            {/* Glass / specular reflection */}
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  'linear-gradient(150deg,rgba(255,255,255,0.08) 0%,rgba(255,255,255,0.02) 35%,rgba(0,0,0,0) 60%)',
+              }}
+            />
+
+            {/* Warm spotlight — brightens on hover */}
+            <div
+              className="pointer-events-none absolute inset-0 opacity-45 transition-opacity duration-500 group-hover:opacity-85"
+              style={{
+                background:
+                  'radial-gradient(ellipse at 50% -8%,rgba(196,154,108,0.38) 0%,rgba(0,0,0,0) 62%)',
+              }}
+            />
+
+            {/* Hover exposure flash handled by handleEnter */}
+
+            {/* Name plaque — always visible */}
+            <div
+              className="pointer-events-none absolute bottom-0 left-0 right-0 flex items-center justify-between px-2 py-[5px]"
+              style={{
+                background: 'rgba(0,0,0,0.76)',
+                borderTop: '1px solid rgba(196,154,108,0.28)',
+              }}
+            >
+              <span className="font-mono text-[7px] tracking-[0.4em] text-ed-gold/65">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span className="text-[7px] tracking-[0.28em] uppercase font-[300] text-ed-gray/80">
+                {g.name}
+              </span>
             </div>
           </button>
         ))}
