@@ -35,17 +35,6 @@ export default function Footer() {
           Gate
         </span>
       </div>
-      <button className="pointer-events-auto absolute right-6 top-[24vh] z-20 flex items-center gap-3 border border-ed-gold/40 bg-ed-black/70 px-4 py-3 backdrop-blur-sm">
-        <span className="flex flex-col gap-0.5">
-          <span className="h-px w-4 bg-ed-gold" />
-          <span className="h-px w-4 bg-ed-gold" />
-          <span className="h-px w-4 bg-ed-gold" />
-          <span className="h-px w-4 bg-ed-gold" />
-        </span>
-        <span className="text-[9px] tracking-[0.4em] uppercase text-ed-gold">
-          Awaken
-        </span>
-      </button>
 
       {/* Hero headline */}
       <div className="relative z-10 mx-auto max-w-6xl text-center">

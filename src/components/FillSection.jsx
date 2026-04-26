@@ -19,6 +19,7 @@ export default function FillSection() {
   const ringsRef   = useRef(null);
   const glowRef    = useRef(null);
   const stageRef   = useRef(null);
+  const waveRef    = useRef(null);
 
   useEffect(() => {
     const tl = gsap.timeline({
@@ -54,9 +55,11 @@ export default function FillSection() {
     );
 
     // Segment 3 (85 → 100%): Dive — scale + blur + darken
+    // Reduce scale on mobile so content stays within viewport bounds
+    const diveScale = window.innerWidth < 768 ? 2.0 : 3.2;
     tl.to(
       stageRef.current,
-      { scale: 3.2, ease: 'power3.in', duration: 0.15 },
+      { scale: diveScale, ease: 'power3.in', duration: 0.15 },
       0.85,
     );
     tl.to(
@@ -66,6 +69,12 @@ export default function FillSection() {
     );
     tl.to(
       ringsRef.current,
+      { opacity: 0, ease: 'power2.in', duration: 0.15 },
+      0.85,
+    );
+    // Wave mark lives outside stageRef so it doesn't scale; just fade it out
+    tl.to(
+      waveRef.current,
       { opacity: 0, ease: 'power2.in', duration: 0.15 },
       0.85,
     );
@@ -88,6 +97,14 @@ export default function FillSection() {
         className="vault-glow pointer-events-none absolute inset-0 opacity-0"
         style={{ transformOrigin: 'center' }}
       />
+
+      {/* Money-wave mark — outside stageRef so it doesn't scale during the dive */}
+      <div
+        ref={waveRef}
+        className="pointer-events-none absolute left-1/2 top-[calc(50%+14vh)] lg:top-[calc(50%+24vh)] -translate-x-1/2 -translate-y-1/2"
+      >
+        <img src="/assets/money-wave.svg" alt="Empire Dom" className="w-52 opacity-70" />
+      </div>
 
       {/* Stage (scaled on dive) */}
       <div
@@ -128,11 +145,6 @@ export default function FillSection() {
           <br />
           always.
         </h2>
-
-        {/* Money-wave mark */}
-        <div className="absolute left-1/2 top-[calc(50%+14vh)] lg:top-[calc(50%+24vh)] -translate-x-1/2 -translate-y-1/2">
-          <img src="/assets/money-wave.svg" alt="Empire Dom" className="w-52 opacity-70" />
-        </div>
 
         {/* Scroll cue */}
         <div className="absolute bottom-[8vh] left-1/2 -translate-x-1/2 text-center">

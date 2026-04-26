@@ -32,8 +32,8 @@ export default function Hero({ onEnter }) {
 
       {/* Corner brackets (editorial cue) */}
       <div className="pointer-events-none absolute inset-6 md:inset-10">
-        <span className="absolute top-0 left-0 h-6 w-6 border-t border-l border-ed-gold/60" />
-        <span className="absolute top-0 right-0 h-6 w-6 border-t border-r border-ed-gold/60" />
+        <span className="absolute top-0 left-0 h-6 w-6 border-t border-l border-ed-gold/60 hidden sm:block" />
+        <span className="absolute top-0 right-0 h-6 w-6 border-t border-r border-ed-gold/60 hidden sm:block" />
         <span className="absolute bottom-0 left-0 h-6 w-6 border-b border-l border-ed-gold/60" />
         <span className="absolute bottom-0 right-0 h-6 w-6 border-b border-r border-ed-gold/60" />
       </div>
@@ -60,7 +60,7 @@ export default function Hero({ onEnter }) {
       </div>
 
       {/* CTA bottom-center (outlined, no magnetic) */}
-      <div className="absolute bottom-[10vh] left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-8">
+      <div className="absolute bottom-[34vh] left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-8 md:bottom-[10vh]">
         <button
           onClick={onEnter}
           className="group relative overflow-hidden border border-ed-gold px-8 py-5 sm:px-14"
