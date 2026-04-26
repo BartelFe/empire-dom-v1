@@ -31,7 +31,7 @@ export default function Hero({ onEnter, entered }) {
         muted
         loop
         playsInline
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute inset-0 h-full w-full object-cover object-[46%_center] scale-[0.92] md:object-center md:scale-100"
       />
 
       {/* Darkening veil */}
