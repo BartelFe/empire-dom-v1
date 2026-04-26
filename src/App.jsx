@@ -63,7 +63,7 @@ export default function App() {
         className="noise-grain relative bg-ed-black text-ed-gray"
         style={{ visibility: entered ? 'visible' : 'hidden' }}
       >
-        <Hero onEnter={() => scrollTo('#fill-section', { duration: 1.8 })} />
+        <Hero onEnter={() => scrollTo('#fill-section', { duration: 1.8 })} entered={entered} />
         <FillSection />
         <Vault />
         <Experience />

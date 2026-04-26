@@ -4,11 +4,18 @@
    Button style matches AgeGate's "I am ready to enter".
    ----------------------------------------------------------- */
 
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { WaveMark } from '../lib/WaveMark.jsx';
 
-export default function Hero({ onEnter }) {
+export default function Hero({ onEnter, entered }) {
   const sectionRef = useRef(null);
+  const videoRef   = useRef(null);
+
+  useEffect(() => {
+    if (!entered || !videoRef.current) return;
+    videoRef.current.currentTime = 0;
+    videoRef.current.play().catch(() => {});
+  }, [entered]);
 
   return (
     <section
@@ -18,9 +25,9 @@ export default function Hero({ onEnter }) {
     >
       {/* Background video with poster fallback (picsum placeholder) */}
       <video
+        ref={videoRef}
         src="/assets/video/empiredom-vid-hero.mp4"
         poster="https://picsum.photos/seed/ed-hero/1920/1080"
-        autoPlay
         muted
         loop
         playsInline
@@ -71,13 +78,6 @@ export default function Hero({ onEnter }) {
           </span>
         </button>
 
-        {/* Scroll cue */}
-        <div className="flex flex-col items-center gap-3">
-          <span className="text-[9px] tracking-[0.5em] uppercase text-ed-gray/40">
-            Scroll
-          </span>
-          <div className="h-8 w-px animate-pulse bg-gradient-to-b from-ed-gold/60 to-transparent" />
-        </div>
       </div>
 
       {/* Frame counter (top-right editorial) */}
