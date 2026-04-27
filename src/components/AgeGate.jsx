@@ -12,21 +12,13 @@ export default function AgeGate({ onEnter, soundEnabled, onToggleSound }) {
   const stackRef = useRef([]);
 
   useEffect(() => {
-    // Lock body scroll while gate is open
     document.body.style.overflow = 'hidden';
 
-    // Staggered reveal
     const tl = gsap.timeline();
     tl.fromTo(
       stackRef.current.filter(Boolean),
       { y: 30, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1.1,
-        ease: 'power3.out',
-        stagger: 0.12,
-      },
+      { y: 0, opacity: 1, duration: 1.1, ease: 'power3.out', stagger: 0.12 },
     );
 
     return () => {
@@ -40,7 +32,6 @@ export default function AgeGate({ onEnter, soundEnabled, onToggleSound }) {
   };
 
   const handleEnter = () => {
-    // Fade out whole gate, then unmount
     gsap.to(rootRef.current, {
       opacity: 0,
       duration: 0.7,
@@ -59,19 +50,19 @@ export default function AgeGate({ onEnter, soundEnabled, onToggleSound }) {
       role="dialog"
       aria-modal="true"
       aria-label="Age verification"
-      className="fixed inset-0 z-[10000] flex items-center justify-center overflow-y-auto bg-ed-black px-6 py-10 sm:py-16"
+      className="fixed inset-0 z-[10000] flex items-center justify-center overflow-y-auto bg-ed-black px-6 py-6 sm:py-8"
     >
       {/* vignette veil */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(0,0,0,0.85)_100%)]" />
 
       <div className="relative w-full max-w-md text-center">
         {/* Wave mark */}
-        <div ref={addToStack} className="mb-10 flex justify-center">
+        <div ref={addToStack} className="mb-6 flex justify-center">
           <WaveMark size={28} />
         </div>
 
         {/* Eyebrow */}
-        <div ref={addToStack} className="mb-10">
+        <div ref={addToStack} className="mb-6">
           <p className="text-[11px] tracking-[0.4em] text-ed-gold">
             —&nbsp;&nbsp;AN EMPIRE DOES NOT WELCOME.
           </p>
@@ -83,7 +74,7 @@ export default function AgeGate({ onEnter, soundEnabled, onToggleSound }) {
         {/* Main headline */}
         <h1
           ref={addToStack}
-          className="mb-10 font-[900] leading-[1.02] tracking-tight text-ed-gray"
+          className="mb-5 font-[900] leading-[1.02] tracking-tight text-ed-gray"
           style={{ fontSize: 'clamp(2rem, 5.5vw, 2.75rem)' }}
         >
           YOU MUST BE <span className="text-ed-gold">OF</span>
@@ -95,10 +86,40 @@ export default function AgeGate({ onEnter, soundEnabled, onToggleSound }) {
           <span className="font-[300] italic">KNEEL.</span>
         </h1>
 
+        {/* Sound toggle — below headline, above body copy */}
+        <div ref={addToStack} className="mb-5 flex items-center justify-center gap-3">
+          {/* Track */}
+          <button
+            onClick={onToggleSound}
+            aria-label="Toggle sound"
+            className="relative h-[16px] w-9 flex-shrink-0 border border-ed-gold/40"
+          >
+            {/* Slider — uses left property to stay within frame */}
+            <span
+              style={{
+                position: 'absolute',
+                top: '2px',
+                bottom: '2px',
+                width: '12px',
+                left: soundEnabled ? '20px' : '2px',
+                background: 'var(--ed-gold)',
+                opacity: 0.85,
+                transition: 'left 0.3s ease-out',
+              }}
+            />
+          </button>
+          <span
+            className="text-[9px] tracking-[0.45em] uppercase transition-colors duration-300"
+            style={{ color: soundEnabled ? 'var(--ed-gold)' : 'rgba(217,218,219,0.35)' }}
+          >
+            {soundEnabled ? 'Sound on' : 'Sound muted'}
+          </span>
+        </div>
+
         {/* Body copy */}
         <p
           ref={addToStack}
-          className="mx-auto mb-12 max-w-sm text-[13px] font-[300] leading-[1.75] text-ed-gray/70"
+          className="mx-auto mb-7 max-w-sm text-[13px] font-[300] leading-[1.75] text-ed-gray/70"
         >
           Beyond this threshold lies a platform of deliberate power, discreet
           luxury, and financial devotion. Enter only if you are 18 years or
@@ -117,40 +138,11 @@ export default function AgeGate({ onEnter, soundEnabled, onToggleSound }) {
           </span>
         </button>
 
-        {/* Sound toggle */}
-        <div ref={addToStack} className="mb-8 flex items-center justify-center gap-4">
-          <span
-            className={`text-[9px] tracking-[0.45em] uppercase transition-colors duration-300 ${
-              soundEnabled ? 'text-ed-gray/30' : 'text-ed-gold/60'
-            }`}
-          >
-            Muted
-          </span>
-          <button
-            onClick={onToggleSound}
-            aria-label="Toggle sound"
-            className="relative h-[18px] w-10 border border-ed-gold/45 transition-colors duration-300"
-          >
-            <span
-              className={`absolute top-[2px] bottom-[2px] w-[14px] bg-ed-gold transition-transform duration-300 ease-out ${
-                soundEnabled ? 'translate-x-[22px]' : 'translate-x-[2px]'
-              }`}
-            />
-          </button>
-          <span
-            className={`text-[9px] tracking-[0.45em] uppercase transition-colors duration-300 ${
-              soundEnabled ? 'text-ed-gold/60' : 'text-ed-gray/30'
-            }`}
-          >
-            Sound
-          </span>
-        </div>
-
         {/* Leave link */}
         <button
           ref={addToStack}
           onClick={handleLeave}
-          className="mb-12 text-[11px] tracking-[0.4em] uppercase text-ed-gray/50 transition-colors hover:text-ed-gray"
+          className="mb-6 text-[11px] tracking-[0.4em] uppercase text-ed-gray/50 transition-colors hover:text-ed-gray"
         >
           Leave
         </button>
