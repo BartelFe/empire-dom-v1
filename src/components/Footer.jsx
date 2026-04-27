@@ -11,16 +11,23 @@
    • Bottom imprint strip
    ----------------------------------------------------------- */
 
+import { Link } from 'react-router-dom';
 import { WaveMark } from '../lib/WaveMark.jsx';
 import AudioSection from './AudioSection.jsx';
 
 const NAV = ['The Goddesses', 'The Code', 'The Vault', 'For Goddesses'];
-const CONTACT = [
+
+const LEGAL_LINKS = [
+  { label: 'Imprint',         to: '/imprint' },
+  { label: 'Privacy Policy',  to: '/privacy-policy' },
+  { label: 'Terms & Conditions', to: '/terms-conditions' },
+];
+
+const CONTACT_INFO = [
   'EmpireDom Holding GmbH',
   'Gewerbering 6',
   '2440 Moosbrunn · AT',
   'office@empiredom.com',
-  'Imprint · Datenschutz · AGB',
 ];
 
 export default function Footer({ onOpenWaitlist }) {
@@ -122,15 +129,27 @@ export default function Footer({ onOpenWaitlist }) {
             Contact
           </div>
           <ul className="space-y-2 text-[13px] font-[300] text-ed-gray/80">
-            {CONTACT.map((l) => (
+            {CONTACT_INFO.map((l) => (
               <li key={l}>
                 {l.includes('@') ? (
-                  <a href={`mailto:${l}`} className="hover:text-ed-gold">
+                  <a href={`mailto:${l}`} className="hover:text-ed-gold transition-colors">
                     {l}
                   </a>
                 ) : (
                   l
                 )}
+              </li>
+            ))}
+          </ul>
+          <ul className="mt-6 space-y-2">
+            {LEGAL_LINKS.map(({ label, to }) => (
+              <li key={to}>
+                <Link
+                  to={to}
+                  className="text-[11px] tracking-[0.12em] text-ed-gray/45 transition-colors hover:text-ed-gold"
+                >
+                  {label}
+                </Link>
               </li>
             ))}
           </ul>
@@ -149,10 +168,16 @@ export default function Footer({ onOpenWaitlist }) {
         EMPIRE DOM
       </h1>
 
-      {/* Imprint strip */}
+      {/* Bottom strip */}
       <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 border-t border-ed-shadow px-[4vw] py-6 text-[9px] tracking-[0.4em] uppercase text-ed-gray/40">
         <span>© 2026 EmpireDom Holding GmbH · All authority reserved.</span>
-        <span>Built in reverence · 18+ only.</span>
+        <div className="flex flex-wrap gap-6">
+          {LEGAL_LINKS.map(({ label, to }) => (
+            <Link key={to} to={to} className="hover:text-ed-gold/70 transition-colors">
+              {label}
+            </Link>
+          ))}
+        </div>
       </div>
     </footer>
   );
