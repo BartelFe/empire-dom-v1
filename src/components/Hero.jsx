@@ -7,15 +7,29 @@
 import { useRef, useEffect } from 'react';
 import { WaveMark } from '../lib/WaveMark.jsx';
 
-export default function Hero({ onEnter, entered, soundEnabled }) {
-  const sectionRef = useRef(null);
-  const videoRef   = useRef(null);
+export default function Hero({ onOpenWaitlist, entered, soundEnabled }) {
+  const sectionRef       = useRef(null);
+  const videoRef         = useRef(null);
+  const soundEnabledRef  = useRef(soundEnabled);
+
+  // Keep ref in sync so the event handler always sees current value
+  useEffect(() => { soundEnabledRef.current = soundEnabled; }, [soundEnabled]);
 
   useEffect(() => {
     if (!entered || !videoRef.current) return;
     videoRef.current.currentTime = 0;
     videoRef.current.play().catch(() => {});
   }, [entered]);
+
+  // Mute video whenever an audio track is playing
+  useEffect(() => {
+    const handler = (e) => {
+      if (!videoRef.current) return;
+      videoRef.current.muted = !soundEnabledRef.current || e.detail.playing;
+    };
+    window.addEventListener('ed:audiostate', handler);
+    return () => window.removeEventListener('ed:audiostate', handler);
+  }, []);
 
   return (
     <section
@@ -68,7 +82,7 @@ export default function Hero({ onEnter, entered, soundEnabled }) {
       {/* CTA bottom-center (outlined, no magnetic) */}
       <div className="absolute bottom-[34vh] left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-8 md:bottom-[10vh]">
         <button
-          onClick={onEnter}
+          onClick={onOpenWaitlist}
           className="group relative overflow-hidden border border-ed-gold px-8 py-5 sm:px-14"
         >
           <span className="absolute inset-0 -translate-x-full bg-ed-gold transition-transform duration-500 ease-out group-hover:translate-x-0" />

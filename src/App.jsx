@@ -12,6 +12,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import AgeGate from './components/AgeGate.jsx';
+import WaitlistModal from './components/WaitlistModal.jsx';
 import Hero from './components/Hero.jsx';
 import FillSection from './components/FillSection.jsx';
 import Vault from './components/Vault.jsx';
@@ -25,7 +26,8 @@ gsap.registerPlugin(ScrollTrigger);
 const GATE_KEY = 'ed_age_gate_v1';
 
 export default function App() {
-  const [soundEnabled, setSoundEnabled] = useState(false);
+  const [soundEnabled,  setSoundEnabled]  = useState(false);
+  const [showWaitlist,  setShowWaitlist]  = useState(false);
   const [entered, setEntered] = useState(() => {
     try {
       return sessionStorage.getItem(GATE_KEY) === '1';
@@ -66,15 +68,21 @@ export default function App() {
         />
       )}
 
+      {showWaitlist && <WaitlistModal onClose={() => setShowWaitlist(false)} />}
+
       <main
         className="noise-grain relative bg-ed-black text-ed-gray"
         style={{ visibility: entered ? 'visible' : 'hidden' }}
       >
-        <Hero onEnter={() => scrollTo('#fill-section', { duration: 1.8 })} entered={entered} soundEnabled={soundEnabled} />
+        <Hero
+          onOpenWaitlist={() => setShowWaitlist(true)}
+          entered={entered}
+          soundEnabled={soundEnabled}
+        />
         <FillSection />
         <Vault />
         <Experience />
-        <Footer />
+        <Footer onOpenWaitlist={() => setShowWaitlist(true)} />
         <AmbientFlash enabled={entered} />
       </main>
     </>

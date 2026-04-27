@@ -49,6 +49,13 @@ export default function AudioSection() {
     audio.currentTime = ratio * audio.duration;
   };
 
+  /* ---- Notify Hero to mute/unmute video ---- */
+  useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent('ed:audiostate', { detail: { playing: active !== null } }),
+    );
+  }, [active]);
+
   /* ---- Attach audio event listeners ---- */
   useEffect(() => {
     const cleanups = TRACKS.map((_, idx) => {
@@ -96,9 +103,22 @@ export default function AudioSection() {
               key={track.id}
               className={`group flex items-center gap-5 border px-5 py-[14px] transition-colors duration-400 ${
                 isPlaying
-                  ? 'border-ed-gold/35 bg-ed-gold/[0.04]'
-                  : 'border-ed-shadow bg-transparent hover:border-ed-gold/20 hover:bg-ed-gold/[0.03]'
+                  ? 'border-ed-gold/35'
+                  : 'border-ed-shadow hover:border-ed-gold/20'
               }`}
+            style={{
+              background: isPlaying
+                ? 'radial-gradient(ellipse 160% 220% at 50% 50%, rgba(196,154,108,0.07) 0%, transparent 75%)'
+                : undefined,
+            }}
+            onMouseEnter={(e) => {
+              if (!isPlaying)
+                e.currentTarget.style.background =
+                  'radial-gradient(ellipse 160% 220% at 50% 50%, rgba(196,154,108,0.04) 0%, transparent 75%)';
+            }}
+            onMouseLeave={(e) => {
+              if (!isPlaying) e.currentTarget.style.background = '';
+            }}
             >
               {/* Play / Pause */}
               <button

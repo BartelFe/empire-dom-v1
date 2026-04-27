@@ -23,7 +23,7 @@ const CONTACT = [
   'Imprint · Datenschutz · AGB',
 ];
 
-export default function Footer() {
+export default function Footer({ onOpenWaitlist }) {
   return (
     <footer className="scanlines relative w-full overflow-hidden bg-ed-black pt-[14vh]">
       {/* Amber spotlight continues */}
@@ -55,7 +55,10 @@ export default function Footer() {
 
         {/* CTA row */}
         <div className="mt-12 flex flex-wrap items-center justify-center gap-8">
-          <button className="group relative overflow-hidden border border-ed-gold px-12 py-5">
+          <button
+            onClick={onOpenWaitlist}
+            className="group relative overflow-hidden border border-ed-gold px-12 py-5"
+          >
             <span className="absolute inset-0 -translate-x-full bg-ed-gold transition-transform duration-500 ease-out group-hover:translate-x-0" />
             <span className="relative z-10 text-[11px] tracking-[0.4em] uppercase text-ed-gold transition-colors duration-500 delay-100 group-hover:text-ed-black">
               Request Audience
