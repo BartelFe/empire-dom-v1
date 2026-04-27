@@ -27,7 +27,6 @@ export default function Hero({ onEnter, entered, soundEnabled }) {
       <video
         ref={videoRef}
         src="/assets/video/empiredom-vid-hero.mp4"
-        poster="https://picsum.photos/seed/ed-hero/1920/1080"
         muted={!soundEnabled}
         loop
         playsInline
@@ -80,10 +79,17 @@ export default function Hero({ onEnter, entered, soundEnabled }) {
 
       </div>
 
-      <div className="absolute top-10 right-[5vw] z-10 text-[10px] tracking-[0.5em] uppercase text-ed-gold">
-        EMPIRE DOM
+      {/* Schriftzug — top left, mirrors "The Gate" on the right */}
+      <div className="absolute top-10 left-[5vw] z-10">
+        <img
+          src="/assets/empiredom_schriftzug.svg"
+          alt="Empire Dom"
+          className="h-[13px] w-auto max-w-[100px] object-contain"
+        />
       </div>
-      <div className="absolute top-10 left-[5vw] z-10 text-[10px] tracking-[0.5em] uppercase text-ed-gold">
+
+      {/* The Gate — top right */}
+      <div className="absolute top-10 right-[5vw] z-10 text-[10px] tracking-[0.5em] uppercase text-ed-gold">
         The Gate
       </div>
     </section>

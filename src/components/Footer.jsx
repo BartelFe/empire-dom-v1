@@ -12,6 +12,7 @@
    ----------------------------------------------------------- */
 
 import { WaveMark } from '../lib/WaveMark.jsx';
+import AudioSection from './AudioSection.jsx';
 
 const NAV = ['The Goddesses', 'The Code', 'The Vault', 'For Goddesses'];
 const CONTACT = [
@@ -70,8 +71,11 @@ export default function Footer() {
         </div>
       </div>
 
+      {/* Audio tracks */}
+      <AudioSection />
+
       {/* Divider */}
-      <div className="relative z-10 mx-[4vw] mt-[14vh] h-px bg-ed-shadow" />
+      <div className="relative z-10 mx-[4vw] h-px bg-ed-shadow" />
 
       {/* Footer grid */}
       <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 gap-12 px-[4vw] pb-[10vh] pt-[10vh] md:grid-cols-3">
