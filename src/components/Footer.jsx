@@ -178,7 +178,7 @@ export default function Footer({ onOpenWaitlist }) {
       {/* Bottom strip */}
       <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 border-t border-ed-shadow px-[4vw] py-6 text-[9px] tracking-[0.4em] uppercase text-ed-gray/40">
         <span>© 2026 EmpireDom Holding GmbH · All authority reserved.</span>
-        <div className="flex flex-wrap gap-6">
+        <div className="hidden sm:flex flex-wrap gap-6">
           {LEGAL_LINKS.map(({ label, to }) => (
             <Link key={to} to={to} className="hover:text-ed-gold/70 transition-colors">
               {label}
