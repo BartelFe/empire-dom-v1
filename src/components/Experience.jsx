@@ -344,13 +344,13 @@ const GoddessWall = memo(function GoddessWall({ active }) {
       {/* Wall edge frame */}
       <div className="pointer-events-none absolute inset-0 border border-ed-gold/20" />
 
-      {/* Top HUD */}
+      {/* Top HUD
       <div className="pointer-events-none absolute top-6 left-6 z-30 text-[10px] tracking-[0.5em] uppercase text-ed-gold">
         The Goddesses
       </div>
       <div className="pointer-events-none absolute top-6 right-6 z-30 font-mono text-[10px] tracking-[0.3em] text-ed-gray/40">
         10 of ∞
-      </div>
+      </div> */}
 
       {/* Grid — mobile: 6 cols × 4 rows asymmetric · desktop: 5 cols × 2 rows uniform */}
       <div className="grid h-full w-full gap-[2px] p-[2px] grid-cols-6 grid-rows-4 lg:grid-cols-5 lg:grid-rows-2">
