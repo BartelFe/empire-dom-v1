@@ -1,10 +1,10 @@
 // Vercel serverless function — POST /api/send
-// Requires RESEND_API_KEY in Vercel Environment Variables.
-// "from" domain (empiredom.com) must be verified in the Resend dashboard.
+// Subscribes the email to the Mailchimp audience list.
+// No API key needed — uses the public embedded-form endpoint.
 
-import { Resend } from 'resend';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+const MC_U   = 'd82aa994b4119d6bb713e7774';
+const MC_ID  = '7783dbc292';
+const MC_URL = 'https://empiredom.us1.list-manage.com/subscribe/post-json';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -18,25 +18,37 @@ export default async function handler(req, res) {
   }
 
   try {
-    await resend.emails.send({
-      from: 'Empire Dom <noreply@empiredom.com>',
-      to:   'office@empiredom.com',
-      subject: '👑 New Waitlist Signup',
-      html: `
-        <div style="font-family:sans-serif;background:#141414;color:#d9dadb;padding:40px;max-width:480px;margin:auto;border:1px solid rgba(196,154,108,0.25);">
-          <h2 style="color:#c49a6c;letter-spacing:0.15em;margin-bottom:8px;">NEW WAITLIST SIGNUP</h2>
-          <p style="color:#d9dadb;margin:0 0 24px;">A new person has joined the Empire Dom waitlist.</p>
-          <p style="background:#1e1e1e;border:1px solid rgba(196,154,108,0.2);padding:16px 20px;font-size:15px;letter-spacing:0.05em;color:#e8c290;">
-            ${email}
-          </p>
-          <p style="color:#888;font-size:11px;margin-top:24px;letter-spacing:0.05em;">Empire Dom · empiredom.com</p>
-        </div>
-      `,
+    const body = new URLSearchParams({
+      u:     MC_U,
+      id:    MC_ID,
+      EMAIL: email,
     });
+
+    const mcRes = await fetch(MC_URL, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body:    body.toString(),
+    });
+
+    const text = await mcRes.text();
+
+    // Mailchimp returns JSONP: jQuery12345({"result":"success","msg":"..."})
+    // Extract the JSON object regardless of wrapper
+    const match = text.match(/\{[\s\S]*\}/);
+    const json  = match ? JSON.parse(match[0]) : null;
+
+    if (json?.result === 'error') {
+      // "already subscribed" is still a win — treat as success on the frontend
+      const alreadySubscribed = json.msg?.toLowerCase().includes('already subscribed');
+      if (alreadySubscribed) {
+        return res.status(200).json({ success: true });
+      }
+      return res.status(400).json({ error: json.msg ?? 'Mailchimp rejected the request.' });
+    }
 
     return res.status(200).json({ success: true });
   } catch (err) {
-    console.error('Resend error:', err);
-    return res.status(500).json({ error: 'Failed to send. Try again.' });
+    console.error('Mailchimp error:', err);
+    return res.status(500).json({ error: 'Failed to subscribe. Please try again.' });
   }
 }
