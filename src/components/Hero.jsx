@@ -7,7 +7,7 @@
 import { useRef, useEffect } from 'react';
 import { WaveMark } from '../lib/WaveMark.jsx';
 
-export default function Hero({ onEnter, entered }) {
+export default function Hero({ onEnter, entered, soundEnabled }) {
   const sectionRef = useRef(null);
   const videoRef   = useRef(null);
 
@@ -28,10 +28,10 @@ export default function Hero({ onEnter, entered }) {
         ref={videoRef}
         src="/assets/video/empiredom-vid-hero.mp4"
         poster="https://picsum.photos/seed/ed-hero/1920/1080"
-        muted
+        muted={!soundEnabled}
         loop
         playsInline
-        className="absolute inset-0 h-full w-full object-cover object-[46%_center] scale-[0.92] md:object-center md:scale-100"
+        className="absolute inset-0 h-full w-full object-cover"
       />
 
       {/* Darkening veil */}
@@ -80,9 +80,8 @@ export default function Hero({ onEnter, entered }) {
 
       </div>
 
-      {/* Frame counter (top-right editorial) */}
-      <div className="absolute top-10 right-[5vw] z-10 font-mono text-[10px] tracking-[0.3em] text-ed-gray/40">
-        00 / 05
+      <div className="absolute top-10 right-[5vw] z-10 text-[10px] tracking-[0.5em] uppercase text-ed-gold">
+        EMPIRE DOM
       </div>
       <div className="absolute top-10 left-[5vw] z-10 text-[10px] tracking-[0.5em] uppercase text-ed-gold">
         The Gate

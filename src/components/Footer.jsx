@@ -24,7 +24,7 @@ const CONTACT = [
 
 export default function Footer() {
   return (
-    <footer className="scanlines chromatic-edges relative w-full overflow-hidden bg-ed-black pt-[14vh]">
+    <footer className="scanlines relative w-full overflow-hidden bg-ed-black pt-[14vh]">
       {/* Amber spotlight continues */}
       <div className="vault-glow pointer-events-none absolute inset-0" />
 

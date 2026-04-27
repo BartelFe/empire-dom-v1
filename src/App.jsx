@@ -25,6 +25,7 @@ gsap.registerPlugin(ScrollTrigger);
 const GATE_KEY = 'ed_age_gate_v1';
 
 export default function App() {
+  const [soundEnabled, setSoundEnabled] = useState(false);
   const [entered, setEntered] = useState(() => {
     try {
       return sessionStorage.getItem(GATE_KEY) === '1';
@@ -57,13 +58,19 @@ export default function App() {
 
   return (
     <>
-      {!entered && <AgeGate onEnter={handleEnter} />}
+      {!entered && (
+        <AgeGate
+          onEnter={handleEnter}
+          soundEnabled={soundEnabled}
+          onToggleSound={() => setSoundEnabled((s) => !s)}
+        />
+      )}
 
       <main
         className="noise-grain relative bg-ed-black text-ed-gray"
         style={{ visibility: entered ? 'visible' : 'hidden' }}
       >
-        <Hero onEnter={() => scrollTo('#fill-section', { duration: 1.8 })} entered={entered} />
+        <Hero onEnter={() => scrollTo('#fill-section', { duration: 1.8 })} entered={entered} soundEnabled={soundEnabled} />
         <FillSection />
         <Vault />
         <Experience />

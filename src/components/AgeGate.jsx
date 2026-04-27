@@ -7,7 +7,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { WaveMark } from '../lib/WaveMark.jsx';
 
-export default function AgeGate({ onEnter }) {
+export default function AgeGate({ onEnter, soundEnabled, onToggleSound }) {
   const rootRef = useRef(null);
   const stackRef = useRef([]);
 
@@ -116,6 +116,35 @@ export default function AgeGate({ onEnter }) {
             I am ready to enter
           </span>
         </button>
+
+        {/* Sound toggle */}
+        <div ref={addToStack} className="mb-8 flex items-center justify-center gap-4">
+          <span
+            className={`text-[9px] tracking-[0.45em] uppercase transition-colors duration-300 ${
+              soundEnabled ? 'text-ed-gray/30' : 'text-ed-gold/60'
+            }`}
+          >
+            Muted
+          </span>
+          <button
+            onClick={onToggleSound}
+            aria-label="Toggle sound"
+            className="relative h-[18px] w-10 border border-ed-gold/45 transition-colors duration-300"
+          >
+            <span
+              className={`absolute top-[2px] bottom-[2px] w-[14px] bg-ed-gold transition-transform duration-300 ease-out ${
+                soundEnabled ? 'translate-x-[22px]' : 'translate-x-[2px]'
+              }`}
+            />
+          </button>
+          <span
+            className={`text-[9px] tracking-[0.45em] uppercase transition-colors duration-300 ${
+              soundEnabled ? 'text-ed-gold/60' : 'text-ed-gray/30'
+            }`}
+          >
+            Sound
+          </span>
+        </div>
 
         {/* Leave link */}
         <button

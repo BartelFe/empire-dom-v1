@@ -102,7 +102,7 @@ export default function Vault() {
   return (
     <section
       ref={sectionRef}
-      className="scanlines chromatic-edges relative w-full overflow-hidden bg-ed-black px-[4vw] py-[22vh] md:px-[8vw]"
+      className="scanlines relative w-full overflow-hidden bg-ed-black px-[4vw] py-[22vh] md:px-[8vw]"
     >
       {/* Amber spotlight glow — the signature from FillSection continues here */}
       <div className="vault-glow pointer-events-none absolute inset-0" />
