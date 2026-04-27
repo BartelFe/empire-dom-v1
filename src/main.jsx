@@ -14,10 +14,12 @@ import App from './App.jsx';
 import ImprintPage from './pages/ImprintPage.jsx';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage.jsx';
 import TermsPage from './pages/TermsPage.jsx';
+import ScrollToTop from './components/ScrollToTop.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/"                 element={<App />} />
         <Route path="/imprint"          element={<ImprintPage />} />
