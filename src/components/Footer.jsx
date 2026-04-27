@@ -141,18 +141,25 @@ export default function Footer({ onOpenWaitlist }) {
               </li>
             ))}
           </ul>
-          <ul className="mt-6 space-y-2">
-            {LEGAL_LINKS.map(({ label, to }) => (
-              <li key={to}>
-                <Link
-                  to={to}
-                  className="text-[11px] tracking-[0.12em] text-ed-gray/45 transition-colors hover:text-ed-gold"
-                >
-                  {label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          {/* Legal links — desktop: one row · mobile: T&C top, Imprint+Privacy below */}
+          <div className="mt-2 text-[13px] font-[300] text-ed-gray/80">
+            {/* Mobile layout */}
+            <div className="flex flex-col gap-[6px] sm:hidden">
+              <Link to="/terms-conditions" className="hover:text-ed-gold transition-colors">
+                Terms &amp; Conditions
+              </Link>
+              <div className="flex gap-4">
+                <Link to="/imprint"        className="hover:text-ed-gold transition-colors">Imprint</Link>
+                <Link to="/privacy-policy" className="hover:text-ed-gold transition-colors">Privacy Policy</Link>
+              </div>
+            </div>
+            {/* Desktop layout */}
+            <div className="hidden sm:flex gap-4">
+              <Link to="/imprint"          className="hover:text-ed-gold transition-colors">Imprint</Link>
+              <Link to="/privacy-policy"   className="hover:text-ed-gold transition-colors">Privacy Policy</Link>
+              <Link to="/terms-conditions" className="hover:text-ed-gold transition-colors">Terms &amp; Conditions</Link>
+            </div>
+          </div>
         </div>
       </div>
 
