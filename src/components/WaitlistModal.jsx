@@ -2,12 +2,14 @@
    WaitlistModal · Empire Dom waitlist signup
    ----------------------------------------------------------- */
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 
 export default function WaitlistModal({ onClose }) {
   const overlayRef = useRef(null);
   const cardRef    = useRef(null);
+  const [status, setStatus]   = useState('idle'); // idle | loading | success | error
+  const [errMsg, setErrMsg]   = useState('');
 
   useEffect(() => {
     gsap.fromTo(overlayRef.current,
@@ -26,9 +28,25 @@ export default function WaitlistModal({ onClose }) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    close();
+    const email = e.target.email.value.trim();
+    setStatus('loading');
+    setErrMsg('');
+
+    try {
+      const res = await fetch('/api/send', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Unknown error');
+      setStatus('success');
+    } catch (err) {
+      setErrMsg(err.message || 'Something went wrong. Please try again.');
+      setStatus('error');
+    }
   };
 
   return (
@@ -76,29 +94,49 @@ export default function WaitlistModal({ onClose }) {
           your place. Sign up to our waitlist.
         </p>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-3">
-          <input
-            type="email"
-            required
-            placeholder="Your email address"
-            className="w-full border border-ed-gold/25 bg-transparent px-4 py-3 text-[12px] tracking-[0.08em] text-ed-gray placeholder-ed-gray/30 outline-none transition-colors duration-300 focus:border-ed-gold/65"
-          />
-          <button
-            type="submit"
-            className="group relative w-full overflow-hidden border border-ed-gold py-4"
-          >
-            <span className="absolute inset-0 -translate-x-full bg-ed-gold transition-transform duration-500 ease-out group-hover:translate-x-0" />
-            <span className="relative z-10 text-[11px] tracking-[0.4em] uppercase text-ed-gold transition-colors duration-500 delay-100 group-hover:text-ed-black">
-              Join Waitlist
-            </span>
-          </button>
-        </form>
-
-        {/* Disclaimer */}
-        <p className="mt-6 text-[9px] tracking-[0.3em] uppercase text-ed-gray/30">
-          No spam. Unsubscribe at any time.
-        </p>
+        {status === 'success' ? (
+          /* ---- Success state ---- */
+          <div className="py-4">
+            <div className="mb-4 text-2xl text-ed-gold">✦</div>
+            <p className="text-[12px] font-[300] leading-[1.75] text-ed-gray/70">
+              You're on the list. The Empire will be in touch.
+            </p>
+            <button
+              onClick={close}
+              className="mt-6 text-[10px] tracking-[0.4em] uppercase text-ed-gold/60 hover:text-ed-gold transition-colors duration-200"
+            >
+              Close
+            </button>
+          </div>
+        ) : (
+          /* ---- Form ---- */
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <input
+              name="email"
+              type="email"
+              required
+              placeholder="Your email address"
+              disabled={status === 'loading'}
+              className="w-full border border-ed-gold/25 bg-transparent px-4 py-3 text-[12px] tracking-[0.08em] text-ed-gray placeholder-ed-gray/30 outline-none transition-colors duration-300 focus:border-ed-gold/65 disabled:opacity-50"
+            />
+            {status === 'error' && (
+              <p className="text-left text-[10px] tracking-[0.05em] text-red-400">{errMsg}</p>
+            )}
+            <button
+              type="submit"
+              disabled={status === 'loading'}
+              className="group relative w-full overflow-hidden border border-ed-gold py-4 disabled:opacity-60"
+            >
+              <span className="absolute inset-0 -translate-x-full bg-ed-gold transition-transform duration-500 ease-out group-hover:translate-x-0" />
+              <span className="relative z-10 text-[11px] tracking-[0.4em] uppercase text-ed-gold transition-colors duration-500 delay-100 group-hover:text-ed-black">
+                {status === 'loading' ? 'Sending…' : 'Join Waitlist'}
+              </span>
+            </button>
+            <p className="pt-1 text-[9px] tracking-[0.3em] uppercase text-ed-gray/30">
+              No spam. Unsubscribe at any time.
+            </p>
+          </form>
+        )}
       </div>
     </div>
   );
