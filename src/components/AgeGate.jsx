@@ -64,10 +64,7 @@ export default function AgeGate({ onEnter, soundEnabled, onToggleSound }) {
         {/* Eyebrow */}
         <div ref={addToStack} className="mb-6">
           <p className="text-[11px] tracking-[0.4em] text-ed-gold">
-            —&nbsp;&nbsp;AN EMPIRE DOES NOT WELCOME.
-          </p>
-          <p className="mt-1 text-[11px] tracking-[0.4em] text-ed-gold">
-            IT ACCEPTS.&nbsp;&nbsp;—
+            — Empire Dom —
           </p>
         </div>
 
@@ -77,9 +74,9 @@ export default function AgeGate({ onEnter, soundEnabled, onToggleSound }) {
           className="mb-5 font-[900] leading-[1.02] tracking-tight text-ed-gray"
           style={{ fontSize: 'clamp(2rem, 5.5vw, 2.75rem)' }}
         >
-          YOU MUST BE <span className="text-ed-gold">OF</span>
+          YOU MUST BE
           <br />
-          <span className="text-ed-gold">LEGAL AGE</span>
+          <span className="text-ed-gold">OF LEGAL AGE</span>
           <br />
           AND WILLING TO
           <br />

@@ -102,31 +102,19 @@ export default function Vault() {
   return (
     <section
       ref={sectionRef}
+      id="the-vault"
       className="scanlines relative w-full overflow-hidden bg-ed-black px-[4vw] py-[22vh] md:px-[8vw]"
     >
       {/* Amber spotlight glow — the signature from FillSection continues here */}
       <div className="vault-glow pointer-events-none absolute inset-0" />
 
-      {/* Left-side vertical marker */}
-      <div className="pointer-events-none absolute left-6 top-[25vh] flex flex-col items-start gap-2">
+      {/* Left-side vertical marker — desktop only */}
+      <div className="pointer-events-none absolute left-6 top-[25vh] hidden sm:flex flex-col items-start gap-2">
         <div className="h-10 w-px bg-ed-gold/40" />
         <span className="text-[9px] tracking-[0.5em] uppercase text-ed-gold/60 [writing-mode:horizontal-tb]">
           Ascension
         </span>
       </div>
-
-      {/* Right-side button */}
-      <button className="pointer-events-auto absolute right-6 top-1/2 z-20 flex -translate-y-1/2 items-center gap-3 border border-ed-gold/40 bg-ed-black/70 px-4 py-3 backdrop-blur-sm">
-        <span className="flex flex-col gap-0.5">
-          <span className="h-px w-4 bg-ed-gold" />
-          <span className="h-px w-4 bg-ed-gold" />
-          <span className="h-px w-4 bg-ed-gold" />
-          <span className="h-px w-4 bg-ed-gold" />
-        </span>
-        <span className="text-[9px] tracking-[0.4em] uppercase text-ed-gold">
-          Awaken
-        </span>
-      </button>
 
       {/* Heading */}
       <div ref={headRef} className="relative z-10 mx-auto max-w-5xl text-left">

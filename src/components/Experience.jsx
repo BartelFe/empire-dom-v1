@@ -245,6 +245,7 @@ export default function Experience() {
   return (
     <section
       ref={sectionRef}
+      id="the-goddesses"
       className="relative h-screen w-full overflow-hidden bg-black"
     >
       {/* R3F flight canvas */}

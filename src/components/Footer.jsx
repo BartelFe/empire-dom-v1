@@ -15,7 +15,12 @@ import { Link } from 'react-router-dom';
 import { WaveMark } from '../lib/WaveMark.jsx';
 import AudioSection from './AudioSection.jsx';
 
-const NAV = ['The Goddesses', 'The Code', 'The Vault', 'For Goddesses'];
+const NAV = [
+  { label: 'The Goddesses', href: '#the-goddesses' },
+  { label: 'The Code',      href: '#fill-section' },
+  { label: 'The Vault',     href: '#the-vault' },
+  { label: 'For Goddesses', href: '#' },
+];
 
 const LEGAL_LINKS = [
   { label: 'Imprint',         to: '/imprint' },
@@ -36,8 +41,8 @@ export default function Footer({ onOpenWaitlist }) {
       {/* Amber spotlight continues */}
       <div className="vault-glow pointer-events-none absolute inset-0" />
 
-      {/* Side markers */}
-      <div className="pointer-events-none absolute left-6 top-[18vh] flex flex-col items-start gap-2">
+      {/* Side markers — desktop only */}
+      <div className="pointer-events-none absolute left-6 top-[18vh] hidden sm:flex flex-col items-start gap-2">
         <div className="h-10 w-px bg-ed-gold/40" />
         <span className="text-[9px] tracking-[0.5em] uppercase text-ed-gold/60">
           Gate
@@ -110,13 +115,13 @@ export default function Footer({ onOpenWaitlist }) {
             The Empire
           </div>
           <ul className="space-y-3">
-            {NAV.map((l) => (
-              <li key={l}>
+            {NAV.map(({ label, href }) => (
+              <li key={label}>
                 <a
-                  href="#"
+                  href={href}
                   className="text-[13px] font-[300] text-ed-gray transition-colors hover:text-ed-gold"
                 >
-                  {l}
+                  {label}
                 </a>
               </li>
             ))}

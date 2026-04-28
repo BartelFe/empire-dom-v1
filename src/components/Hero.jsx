@@ -94,7 +94,7 @@ export default function Hero({ onOpenWaitlist, entered, soundEnabled }) {
       </div>
 
       {/* Schriftzug — top left, mirrors "The Gate" on the right */}
-      <div className="absolute top-10 left-[5vw] z-10">
+      <div className="absolute top-10 md:top-20 left-[5vw] z-10">
         <img
           src="/assets/empiredom_schriftzug.svg"
           alt="Empire Dom"
@@ -103,7 +103,7 @@ export default function Hero({ onOpenWaitlist, entered, soundEnabled }) {
       </div>
 
       {/* The Gate — top right */}
-      <div className="absolute top-10 right-[5vw] z-10 text-[10px] tracking-[0.5em] uppercase text-ed-gold">
+      <div className="absolute top-10 md:top-20 right-[5vw] z-10 text-[10px] tracking-[0.5em] uppercase text-ed-gold">
         The Gate
       </div>
     </section>
