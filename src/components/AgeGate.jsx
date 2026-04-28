@@ -64,7 +64,7 @@ export default function AgeGate({ onEnter, soundEnabled, onToggleSound }) {
         {/* Eyebrow */}
         <div ref={addToStack} className="mb-6">
           <p className="text-[11px] tracking-[0.4em] text-ed-gold">
-            — Empire Dom —
+            — EMPIRE DOM —
           </p>
         </div>
 
