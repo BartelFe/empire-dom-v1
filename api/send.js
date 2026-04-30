@@ -1,6 +1,5 @@
 // Vercel serverless function — POST /api/send
 // Subscribes the email to the Mailchimp audience list.
-// No API key needed — uses the public embedded-form endpoint.
 
 const MC_U   = 'd82aa994b4119d6bb713e7774';
 const MC_ID  = '7783dbc292';
@@ -32,21 +31,30 @@ export default async function handler(req, res) {
 
     const text = await mcRes.text();
 
-    // Mailchimp returns JSONP: jQuery12345({"result":"success","msg":"..."})
-    // Extract the JSON object regardless of wrapper
-    const match = text.match(/\{[\s\S]*\}/);
-    const json  = match ? JSON.parse(match[0]) : null;
+    // String-based checks — avoids brittle JSON.parse on HTML redirect pages.
+    // Mailchimp may return JSONP, plain JSON, or a full HTML page depending on
+    // the request context. We only hard-fail when we can clearly read
+    // result=error AND it is NOT an "already subscribed" situation.
+    const isExplicitError = text.includes('"result":"error"') ||
+                            text.includes('"result": "error"');
 
-    if (json?.result === 'error') {
-      // "already subscribed" is still a win — treat as success on the frontend
-      const alreadySubscribed = json.msg?.toLowerCase().includes('already subscribed');
-      if (alreadySubscribed) {
-        return res.status(200).json({ success: true });
-      }
-      return res.status(400).json({ error: json.msg ?? 'Mailchimp rejected the request.' });
+    const isAlreadyMember = text.toLowerCase().includes('already subscribed') ||
+                            text.toLowerCase().includes('already a list member') ||
+                            text.toLowerCase().includes('member exists');
+
+    if (isExplicitError && !isAlreadyMember) {
+      // Try to surface the human-readable Mailchimp message
+      const msgMatch = text.match(/"msg"\s*:\s*"([^"]+)"/);
+      const msg = msgMatch
+        ? msgMatch[1].replace(/\\u003c[^]*?\\u003e/g, '').trim()
+        : 'Subscription failed. Please try again.';
+      return res.status(400).json({ error: msg });
     }
 
+    // Everything else — success, HTML redirect, already subscribed, unparseable —
+    // is treated as success. The email reached Mailchimp.
     return res.status(200).json({ success: true });
+
   } catch (err) {
     console.error('Mailchimp error:', err);
     return res.status(500).json({ error: 'Failed to subscribe. Please try again.' });
