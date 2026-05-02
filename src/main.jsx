@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { Analytics } from '@vercel/analytics/react';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/300-italic.css';
@@ -22,6 +23,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <ScrollToTop />
       <SpeedInsights />
+      <Analytics />
       <Routes>
         <Route path="/"                 element={<App />} />
         <Route path="/imprint"          element={<ImprintPage />} />
