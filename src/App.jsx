@@ -21,6 +21,7 @@ import Footer from './components/Footer.jsx';
 import AmbientFlash from './components/AmbientFlash.jsx';
 import { useLenis } from './hooks/useLenis.js';
 
+
 gsap.registerPlugin(ScrollTrigger);
 
 const GATE_KEY = 'ed_age_gate_v1';

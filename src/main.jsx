@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/300-italic.css';
@@ -20,6 +21,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <ScrollToTop />
+      <SpeedInsights />
       <Routes>
         <Route path="/"                 element={<App />} />
         <Route path="/imprint"          element={<ImprintPage />} />
